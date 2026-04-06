@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subnetting Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ================================================================
+     NAVBAR
+================================================================ -->
+<nav>
+      <button class="nav-toggle-btn" onclick="window.location.href='../Main.html'" style="margin-right: 10px;">< Back</button>
+
+
+  <ul class="nav-links" id="navLinks">
+    <li><a data-section="home"       class="active" onclick="navigate('home')">Home</a></li>
+    <li><a data-section="theory"               onclick="navigate('theory')">Theory</a></li>
+    <li><a data-section="simulation"           onclick="navigate('simulation')">Simulation</a></li>
+    <li><a data-section="quiz"                 onclick="navigate('quiz')">Quiz</a></li>
+    <li><a data-section="about"                onclick="navigate('about')">About</a></li>
+  </ul>
+
+  <button class="nav-toggle-btn" id="darkToggle" onclick="toggleDark()">
+    <svg id="darkIcon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+    </svg>
+    <span id="darkLabel">Dark Mode</span>
+  </button>
+</nav>
+
+
+<!-- ================================================================
+     HOME
+================================================================ -->
+<div id="section-home" class="section active">
+
+  <div class="hero">
+    <h1>Subnetting Simulator</h1>
+    <p>Interactive simulator for understanding IP addressing, subnet masks, CIDR notation, and network subnetting.</p>
+  </div>
+
+  <div class="section-body">
+
+    <div class="sim-card">
+      <h2>Project Overview</h2>
+      <p>
+        Subnetting is the process of dividing a large network into smaller, more efficient sub-networks.
+        This simulator demonstrates binary conversion, subnet ID calculation, subnetting exercises,
+        and dynamic practice problems to build your networking skills.
+      </p>
+    </div>
+
+    <div class="sim-card">
+      <h2>Subnetting Theory Summary</h2>
+      <ul>
+        <li>An IP address is a unique 32-bit identifier for network devices.</li>
+        <li>Subnet masks determine network and host portions of an IP.</li>
+        <li>CIDR notation provides a compact way to specify subnet masks.</li>
+        <li>Subnetting borrows bits from the host portion to create sub-networks.</li>
+        <li>Each subnet has a network address and a broadcast address.</li>
+        <li>IP addresses are classified into Class A, B, C, D, and E.</li>
+      </ul>
+    </div>
+
+    <div class="sim-card">
+      <h2>Simulator Features</h2>
+      <ul>
+        <li>Binary Number Conversion Exercise</li>
+        <li>Subnet ID Calculation</li>
+        <li>Subnetting with Subnet IDs</li>
+        <li>Dynamic Practice Problem Generator</li>
+        <li>Interactive Quiz</li>
+      </ul>
+    </div>
+
+    <div class="sim-card">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Simulation</h3>
+          <p>Run binary, subnet ID, and subnetting exercises.</p>
+          <button class="sim-btn" onclick="navigate('simulation')">Open</button>
+        </div>
+        <div class="feature-card">
+          <h3>Theory</h3>
+          <p>Learn subnetting concepts and IP addressing.</p>
+          <button class="sim-btn" onclick="navigate('theory')">Open</button>
+        </div>
+        <div class="feature-card">
+          <h3>Practice</h3>
+          <p>Generate random problems and test your skills.</p>
+          <button class="sim-btn" onclick="navigateSimTab('practice')">Open</button>
+        </div>
+        <div class="feature-card">
+          <h3>Quiz</h3>
+          <p>Test your subnetting knowledge.</p>
+          <button class="sim-btn" onclick="navigate('quiz')">Open</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ================================================================
+     THEORY
+================================================================ -->
+<div id="section-theory" class="section">
+  <div class="section-body">
+    <h1>Subnetting Theory</h1>
+
+    <h2>1. What is an IP Address?</h2>
+    <p>
+      An IP (Internet Protocol) address is a unique 32-bit identifier assigned to every device on a network.
+      It is used for communication between devices in a network.
+      IP addresses are written in dotted decimal notation, e.g., <strong>192.168.1.0</strong>.
+    </p>
+
+    <h2>2. Dotted Decimal Notation</h2>
+    <p>
+      A 32-bit IP address is split into four 8-bit octets. Each octet is converted to a decimal number
+      separated by periods. For example:
+      <strong>11000000.10101000.00000001.00000000 = 192.168.1.0</strong>
+    </p>
+
+    <h2>3. Network ID and Host ID</h2>
+    <p>
+      An IP address consists of a <strong>Network ID</strong> (identifies the network) and a
+      <strong>Host ID</strong> (identifies the specific device).
+      The subnet mask determines which part is the network ID and which is the host ID.
+    </p>
+
+    <h2>4. Subnet Mask</h2>
+    <p>
+      A subnet mask is a 32-bit number that separates the IP address into the network and host portions.
+      For example, a subnet mask of <strong>255.255.255.0</strong> means the first 24 bits are the network ID
+      and the remaining 8 bits are for hosts.
+    </p>
+
+    <h2>5. CIDR Notation</h2>
+    <p>
+      CIDR (Classless Inter-Domain Routing) notation represents the subnet mask as a suffix.
+      For example, <strong>/24</strong> means the first 24 bits are the network portion.
+      This is equivalent to <strong>255.255.255.0</strong>.
+    </p>
+
+    <h2>6. Classes of IP Addresses</h2>
+    <table class="sim-table">
+      <thead>
+        <tr><th>Class</th><th>Range</th><th>Default Mask</th><th>CIDR</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td>1.0.0.0 – 126.255.255.255</td><td>255.0.0.0</td><td>/8</td></tr>
+        <tr><td>B</td><td>128.0.0.0 – 191.255.255.255</td><td>255.255.0.0</td><td>/16</td></tr>
+        <tr><td>C</td><td>192.0.0.0 – 223.255.255.255</td><td>255.255.255.0</td><td>/24</td></tr>
+        <tr><td>D</td><td>224.0.0.0 – 239.255.255.255</td><td>Multicast</td><td>N/A</td></tr>
+        <tr><td>E</td><td>240.0.0.0 – 255.255.255.255</td><td>Reserved</td><td>N/A</td></tr>
+      </tbody>
+    </table>
+
+    <h2>7. Subnetting</h2>
+    <p>
+      Subnetting is the process of dividing a large network into smaller sub-networks (subnets).
+      This is done by borrowing bits from the host portion of the IP address.
+      Subnetting improves network efficiency, security, and management.
+    </p>
+
+    <h2>8. Subnetting Illustration</h2>
+    <p>Example: Network <strong>192.168.1.0/24</strong> with 2-bit subnetting:</p>
+    <table class="sim-table">
+      <thead><tr><th>Subnet</th><th>Subnet Bits</th><th>Network Address</th><th>Broadcast</th><th>Host Range</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>00</td><td>192.168.1.0</td><td>192.168.1.63</td><td>192.168.1.1 – 192.168.1.62</td></tr>
+        <tr><td>1</td><td>01</td><td>192.168.1.64</td><td>192.168.1.127</td><td>192.168.1.65 – 192.168.1.126</td></tr>
+        <tr><td>2</td><td>10</td><td>192.168.1.128</td><td>192.168.1.191</td><td>192.168.1.129 – 192.168.1.190</td></tr>
+        <tr><td>3</td><td>11</td><td>192.168.1.192</td><td>192.168.1.255</td><td>192.168.1.193 – 192.168.1.254</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SIMULATION
+================================================================ -->
+<div id="section-simulation" class="section">
+  <div class="section-body">
+    <h1>Simulation</h1>
+
+    <div class="sim-card" style="width:95%;max-width:1020px;">
+
+      <!-- Tab bar -->
+      <div style="display:flex;gap:5px;margin-bottom:22px;flex-wrap:wrap;">
+        <button id="tab-binary"     class="sim-btn active-tab" onclick="simTab('binary')">Binary Numbers</button>
+        <button id="tab-subnetid"   class="sim-btn"            onclick="simTab('subnetid')">Subnet ID</button>
+        <button id="tab-subnetting" class="sim-btn"            onclick="simTab('subnetting')">Subnetting</button>
+        <button id="tab-practice"   class="sim-btn"            onclick="simTab('practice')">Practice</button>
+      </div>
+
+      <!-- Binary tab -->
+      <div id="simcontent-binary" class="sim-tab-content fade-in">
+        <div style="text-align:center;margin-bottom:22px;">
+          <p style="font-size:0.78em;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted-fg);margin-bottom:10px;">2-bit Reference</p>
+          <div class="glass-card" style="display:inline-block;">
+            <table>
+              <thead><tr><th>Decimal</th><th>Binary</th></tr></thead>
+              <tbody>
+                <tr><td>0 →</td><td style="font-family:monospace;font-weight:700;color:var(--primary)">00</td></tr>
+                <tr><td>1 →</td><td style="font-family:monospace;font-weight:700;color:var(--primary)">01</td></tr>
+                <tr><td>2 →</td><td style="font-family:monospace;font-weight:700;color:var(--primary)">10</td></tr>
+                <tr><td>3 →</td><td style="font-family:monospace;font-weight:700;color:var(--primary)">11</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p style="text-align:center;font-weight:600;margin-bottom:16px;"><span style="color:var(--accent);font-weight:700;">Task:</span> Convert the numbers below to their <strong>3-bit</strong> binary form</p>
+        <div style="display:flex;justify-content:center;">
+          <div class="glass-card" style="max-width:520px;width:100%;">
+            <table id="binaryTable"><thead><tr><th>Decimal</th><th>Binary</th><th>Decimal</th><th>Binary</th></tr></thead><tbody></tbody></table>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:20px;">
+          <button class="sim-btn btn-lg" onclick="submitBinary()">Submit</button>
+          <div id="binaryResult" class="msg-success" style="display:none;margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <!-- Subnet ID tab -->
+      <div id="simcontent-subnetid" class="sim-tab-content" style="display:none;">
+        <div style="text-align:center;margin-bottom:18px;">
+          <p style="font-weight:600;"><span style="color:var(--accent);font-weight:700;">Task:</span> Determine the minimum number of <strong>subnet bits</strong> needed for the given number of networks.</p>
+          <p style="font-size:0.9em;color:var(--muted-fg);">Formula: 2<sup>n</sup> ≥ required networks → find smallest <em>n</em></p>
+        </div>
+        <div style="display:flex;justify-content:center;">
+          <div class="glass-card" style="max-width:500px;width:100%;">
+            <table><thead><tr><th># Networks Required</th><th>Bits for Subnet ID</th><th></th></tr></thead><tbody id="subnetIDTable"></tbody></table>
+          </div>
+        </div>
+        <div id="subnetIDHints" style="margin-top:10px;"></div>
+        <div style="text-align:center;margin-top:18px;">
+          <button class="sim-btn btn-lg" onclick="submitSubnetID()">Submit</button>
+          <div id="subnetIDResult" class="msg-success" style="display:none;margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <!-- Subnetting tab -->
+      <div id="simcontent-subnetting" class="sim-tab-content" style="display:none;">
+        <div style="text-align:center;margin-bottom:18px;">
+          <p style="font-weight:600;"><span style="color:var(--accent);font-weight:700;">Task:</span> Fill in the 2-bit Subnet ID for each subnet</p>
+          <div style="font-size:0.9em;color:var(--muted-fg);line-height:1.9;">
+            <p>Network: <code>192.168.1.0/24</code> with a <strong>2-bit</strong> subnet mask</p>
+            <p>Subnet mask: <code>255.255.255.192</code> = <span style="font-family:monospace;">11111111.11111111.11111111.<span style="color:var(--primary);font-weight:700;">XX</span>000000</span></p>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;">
+          <div class="glass-card" style="max-width:700px;width:100%;">
+            <table><thead><tr><th>Subnet</th><th>Subnet ID (2 bits)</th><th>Network Address</th><th>Range</th><th></th></tr></thead><tbody id="subnettingTable"></tbody></table>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:18px;">
+          <button class="sim-btn btn-lg" onclick="submitSubnetting()">Submit</button>
+          <div id="subnettingResult" class="msg-success" style="display:none;margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <!-- Practice tab -->
+      <div id="simcontent-practice" class="sim-tab-content" style="display:none;">
+        <div style="text-align:center;margin-bottom:18px;">
+          <p style="font-weight:600;"><span style="color:var(--accent);font-weight:700;">Practice:</span> Given the network and subnet size, calculate subnet mask and network addresses</p>
+          <div class="practice-info" id="practiceInfo"></div>
+        </div>
+        <div class="glass-card" style="max-width:430px;margin:0 auto 22px;padding:20px;text-align:center;">
+          <label style="font-size:0.84em;font-weight:700;color:var(--muted-fg);display:block;margin-bottom:10px;">What is the subnet mask?</label>
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+            <input class="sim-input" id="practiceMaskInput" style="width:200px;" placeholder="255.255.255.___" oninput="practiceClearSubmit()" />
+            <span id="practiceMaskIcon"></span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;">
+          <div class="glass-card" style="max-width:780px;width:100%;">
+            <table><thead><tr><th>Subnet #</th><th>Subnet ID</th><th>Network Address</th><th>Broadcast</th><th></th></tr></thead><tbody id="practiceTable"></tbody></table>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:20px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+          <button class="sim-btn btn-lg" onclick="submitPractice()">Submit</button>
+          <button class="sim-btn btn-lg btn-outline" onclick="newPracticeProblem()">↺ New Problem</button>
+        </div>
+        <div id="practiceResult" style="text-align:center;margin-top:10px;font-weight:700;"></div>
+        <div id="practiceHint" class="msg-hint" style="display:none;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     QUIZ
+================================================================ -->
+<div id="section-quiz" class="section">
+  <div class="section-body">
+    <h1 style="text-align:center;">Subnetting Quiz</h1>
+    <div class="quiz-wrapper">
+      <div id="quizBody"></div>
+      <div style="text-align:center;margin-top:22px;">
+        <button class="sim-btn btn-lg" id="quizBtn" onclick="handleQuiz()">Submit Quiz</button>
+      </div>
+      <div id="quizResult" style="display:none;" class="quiz-result"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     ABOUT
+================================================================ -->
+<div id="section-about" class="section">
+  <div class="section-body">
+    <h1>About This Project</h1>
+    <p>This project is an interactive Subnetting Simulator developed to demonstrate IP addressing, subnet mask calculation, CIDR notation, binary conversion, and dynamic practice exercises.</p>
+    <h2>Technologies Used</h2>
+    <ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+    <h2>Project Modules</h2>
+    <ul><li>Theory Module</li><li>Binary Number Conversion</li><li>Subnet ID Calculation</li><li>Subnetting Exercise</li><li>Practice Problem Generator</li><li>Quiz Module</li></ul>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Resolution Simulator</title>
+    <link rel="stylesheet" href="dns_simulator.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+      <button class="dark-toggle" onclick="window.location.href='../Main.html'" style="margin-right: 10px;">< Back</button>
+    <ul>
+        <li><a onclick="showSection('section-home')" data-section="section-home">Home</a></li>
+        <li><a onclick="showSection('section-theory')" data-section="section-theory">Theory</a></li>
+        <li><a onclick="showSection('section-simulation')" data-section="section-simulation">Simulation</a></li>
+        <li><a onclick="showSection('section-flowchart')" data-section="section-flowchart">Flow Chart</a></li>
+        <li><a onclick="showSection('section-analyzer')" data-section="section-analyzer">Query Log</a></li>
+        <li><a onclick="showSection('section-comparison')" data-section="section-comparison">DNS vs HTTP</a></li>
+        <li><a onclick="showSection('section-quiz')" data-section="section-quiz">Quiz</a></li>
+        <li><a onclick="showSection('section-about')" data-section="section-about">About</a></li>
+    </ul>
+    <button class="dark-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+</nav>
+
+
+<!-- ================= HOME SECTION ================= -->
+<div id="section-home" class="page-section">
+
+    <div class="hero">
+        <h1>DNS Resolution Simulator</h1>
+        <p>
+            Interactive simulator for understanding how DNS resolves domain names to IP addresses,
+            including recursive queries, iterative lookups, caching, and the full resolver chain.
+        </p>
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+            <h2>Project Overview</h2>
+            <p>
+                Domain Name System (DNS) is the internet's phonebook — it translates human-readable domain names
+                like <strong>www.example.com</strong> into machine-readable IP addresses like <strong>93.184.216.34</strong>.
+                This simulator demonstrates the full DNS resolution process, stepping through each server
+                in the lookup chain: the Recursive Resolver, Root Server, TLD Server, and Authoritative Server.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>DNS Theory Summary</h2>
+            <ul>
+                <li>DNS maps domain names to IP addresses using a hierarchical distributed database.</li>
+                <li>Resolution involves up to four server types: Recursive Resolver, Root, TLD, and Authoritative.</li>
+                <li>DNS uses UDP port 53 for queries (TCP for large responses).</li>
+                <li>Responses are cached with a TTL (Time To Live) value.</li>
+                <li>Root servers know the TLD servers; TLD servers know the Authoritative servers.</li>
+                <li>There are 13 root server clusters managed by IANA globally.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Simulator Features</h2>
+            <ul>
+                <li>Step-by-step DNS Resolution Animation</li>
+                <li>Auto-run Mode for Continuous Playback</li>
+                <li>Custom Domain Name Input</li>
+                <li>DNS Resolution Flow Chart</li>
+                <li>Query Log Analyzer</li>
+                <li>DNS vs HTTP Comparison</li>
+                <li>Interactive Quiz</li>
+            </ul>
+        </div>
+
+        <div class="card-container">
+            <div class="feature-card">
+                <h3>Simulation</h3>
+                <p>Animate the full DNS resolution chain step by step.</p>
+                <a onclick="showSection('section-simulation')">Open</a>
+            </div>
+            <div class="feature-card">
+                <h3>Flow Chart</h3>
+                <p>View the DNS resolution decision flow diagram.</p>
+                <a onclick="showSection('section-flowchart')">Open</a>
+            </div>
+            <div class="feature-card">
+                <h3>Query Log</h3>
+                <p>Inspect every DNS query and response logged.</p>
+                <a onclick="showSection('section-analyzer')">Open</a>
+            </div>
+            <div class="feature-card">
+                <h3>Quiz</h3>
+                <p>Test your DNS knowledge with 5 questions.</p>
+                <a onclick="showSection('section-quiz')">Open</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= THEORY SECTION ================= -->
+<div id="section-theory" class="page-section">
+    <div class="content">
+
+        <h1>DNS Theory</h1>
+
+        <h2>1. Introduction to DNS</h2>
+        <p>
+            The Domain Name System (DNS) is a hierarchical, distributed naming system for computers and services connected
+            to the Internet or private networks. It translates domain names into IP addresses needed for locating
+            and identifying devices and services using underlying network protocols.
+        </p>
+
+        <h2>2. DNS Hierarchy</h2>
+        <table>
+            <tr>
+                <th>Level</th><th>Component</th><th>Example</th>
+            </tr>
+            <tr><td>Root</td><td>Root DNS Servers (13 clusters)</td><td>. (dot)</td></tr>
+            <tr><td>TLD</td><td>Top-Level Domain Servers</td><td>.com, .org, .in</td></tr>
+            <tr><td>Authoritative</td><td>Domain-specific DNS Servers</td><td>ns1.example.com</td></tr>
+            <tr><td>Resolver</td><td>Recursive Resolver (ISP/Public)</td><td>8.8.8.8 (Google)</td></tr>
+        </table>
+
+        <h2>3. DNS Query Types</h2>
+        <ul>
+            <li><strong>Recursive Query:</strong> Client asks resolver to do all the work and return a final answer.</li>
+            <li><strong>Iterative Query:</strong> Resolver asks each server in turn; each server refers to the next.</li>
+            <li><strong>Non-recursive Query:</strong> Resolver already has the answer cached.</li>
+        </ul>
+
+        <h2>4. DNS Resolution Steps for www.example.com</h2>
+        <ol>
+            <li>Client (browser) sends a query to the Recursive Resolver.</li>
+            <li>Resolver queries a Root DNS Server.</li>
+            <li>Root Server responds with the address of the .com TLD server.</li>
+            <li>Resolver queries the .com TLD Server.</li>
+            <li>TLD Server responds with the Authoritative Name Server for example.com.</li>
+            <li>Resolver queries the Authoritative Server.</li>
+            <li>Authoritative Server returns the IP address (e.g., 93.184.216.34).</li>
+            <li>Resolver caches and returns the IP to the Client.</li>
+        </ol>
+
+        <h2>5. DNS Record Types</h2>
+        <ul>
+            <li><strong>A Record:</strong> Maps domain to IPv4 address.</li>
+            <li><strong>AAAA Record:</strong> Maps domain to IPv6 address.</li>
+            <li><strong>CNAME:</strong> Canonical Name — alias of another domain.</li>
+            <li><strong>MX Record:</strong> Mail exchange server for the domain.</li>
+            <li><strong>NS Record:</strong> Name server for the domain.</li>
+            <li><strong>TTL:</strong> Time To Live — how long a record is cached.</li>
+        </ul>
+
+        <h2>6. DNS Caching</h2>
+        <p>
+            DNS responses are cached by the resolver and browser. The TTL value (in seconds) determines
+            how long a record is stored before re-querying. Caching reduces latency and load on DNS servers.
+        </p>
+
+        <h2>7. DNS Security (DNSSEC)</h2>
+        <p>
+            DNSSEC (DNS Security Extensions) adds cryptographic signatures to DNS records to protect against
+            cache poisoning and man-in-the-middle attacks. It verifies that DNS responses are authentic.
+        </p>
+
+    </div>
+</div>
+
+
+<!-- ================= SIMULATION SECTION ================= -->
+<div id="section-simulation" class="page-section">
+    <div class="content">
+
+        <h1>DNS Resolution Process Simulation</h1>
+
+        <!-- Domain Input -->
+        <div class="card">
+            <h2>Configure Domain</h2>
+            <label for="domainInput"><strong>Domain to Resolve:</strong></label>
+            <input type="text" id="domainInput" value="www.example.com" placeholder="e.g. www.example.com"
+                   style="margin-left:10px; padding:8px 12px; border-radius:6px; border:1px solid #ccc; font-size:15px; width:260px;">
+        </div>
+
+        <!-- Simulation Canvas -->
+        <div class="card">
+            <h2>Network Visualization</h2>
+            <div class="dns-simulation-area" id="dnsSimArea">
+
+                <!-- Node: Client -->
+                <div class="dns-node client-node" id="node-client">
+                    <div class="node-icon">🖥️</div>
+                    <div class="node-label">CLIENT<br><small>Browser</small></div>
+                </div>
+
+                <!-- Node: Resolver -->
+                <div class="dns-node resolver-node" id="node-resolver">
+                    <div class="node-icon">🔄</div>
+                    <div class="node-label">RESOLVER<br><small>Recursive</small></div>
+                </div>
+
+                <!-- Node: Root -->
+                <div class="dns-node root-node" id="node-root">
+                    <div class="node-icon">🌐</div>
+                    <div class="node-label">ROOT<br><small>DNS Server</small></div>
+                </div>
+
+                <!-- Node: TLD -->
+                <div class="dns-node tld-node" id="node-tld">
+                    <div class="node-icon">📂</div>
+                    <div class="node-label">TLD<br><small>.com Server</small></div>
+                </div>
+
+                <!-- Node: Authoritative -->
+                <div class="dns-node auth-node" id="node-auth">
+                    <div class="node-icon">📋</div>
+                    <div class="node-label">AUTH<br><small>example.com</small></div>
+                </div>
+
+                <!-- Connector lines (SVG layer) -->
+                <svg class="connector-svg" id="connectorSvg">
+                    <line id="line-c-r"  class="connector-line" x1="0" y1="0" x2="0" y2="0"/>
+                    <line id="line-r-rt" class="connector-line" x1="0" y1="0" x2="0" y2="0"/>
+                    <line id="line-r-tl" class="connector-line" x1="0" y1="0" x2="0" y2="0"/>
+                    <line id="line-r-au" class="connector-line" x1="0" y1="0" x2="0" y2="0"/>
+                </svg>
+
+                <!-- Animated packet -->
+                <div id="dns-packet" class="dns-packet">?</div>
+
+            </div><!-- end dns-simulation-area -->
+        </div>
+
+        <!-- State Display -->
+        <div class="card">
+            <h3>Resolution Status: <span id="dns-state">IDLE</span></h3>
+            <p id="step-description" style="margin:8px 0 0; color:#555;">Press <strong>Start Simulation</strong> to begin DNS resolution.</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="card">
+            <button onclick="startDNS()">▶ Start Simulation</button>
+            <button onclick="nextStep()">⏭ Next Step</button>
+            <button onclick="resetDNS()">↺ Reset</button>
+            <label style="margin-left:15px; font-weight:bold; cursor:pointer;">
+                <input type="checkbox" id="autoRun" style="margin-right:5px;"> Auto Run
+            </label>
+        </div>
+
+        <!-- Resolved IP Display -->
+        <div class="card" id="resolvedCard" style="display:none;">
+            <h2>✅ Resolution Complete</h2>
+            <p>Domain: <strong id="resolvedDomain"></strong></p>
+            <p>Resolved IP: <strong id="resolvedIP" style="color:#2ecc71; font-size:20px;"></strong></p>
+            <p>Total Steps: <strong>8</strong> &nbsp;|&nbsp; Cached: <strong>Yes</strong> &nbsp;|&nbsp; TTL: <strong>300s</strong></p>
+        </div>
+
+        <!-- Packet Log -->
+        <div class="card">
+            <h2>DNS Query Log</h2>
+            <table id="dnsLogTable">
+                <tr>
+                    <th>Step</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Message</th>
+                    <th>Response</th>
+                    <th>Status</th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= FLOW CHART SECTION ================= -->
+<div id="section-flowchart" class="page-section">
+    <div class="content">
+
+        <h1>DNS Resolution Flow Chart</h1>
+
+        <div class="card">
+            <p>Click any state to highlight it. States represent the stages of DNS resolution.</p>
+            <div class="state-container">
+                <div class="state" id="fc-IDLE"      onclick="setFlowState('fc-IDLE')">IDLE</div>
+                <div class="state" id="fc-QUERY"     onclick="setFlowState('fc-QUERY')">CLIENT QUERY</div>
+                <div class="state" id="fc-CACHE"     onclick="setFlowState('fc-CACHE')">CACHE CHECK</div>
+                <div class="state" id="fc-ROOT"      onclick="setFlowState('fc-ROOT')">ROOT QUERY</div>
+                <div class="state" id="fc-TLD"       onclick="setFlowState('fc-TLD')">TLD QUERY</div>
+                <div class="state" id="fc-AUTH"      onclick="setFlowState('fc-AUTH')">AUTH QUERY</div>
+                <div class="state" id="fc-RETURN"    onclick="setFlowState('fc-RETURN')">IP RETURNED</div>
+                <div class="state" id="fc-CACHED"    onclick="setFlowState('fc-CACHED')">CACHED</div>
+                <div class="state" id="fc-DELIVERED" onclick="setFlowState('fc-DELIVERED')">DELIVERED</div>
+                <div class="state" id="fc-ERROR"     onclick="setFlowState('fc-ERROR')">NXDOMAIN</div>
+            </div>
+            <button onclick="resetFlowChart()" style="margin-top:20px;">Reset Highlight</button>
+        </div>
+
+        <div class="card">
+            <h2>Resolution Flow Description</h2>
+            <ol>
+                <li><strong>IDLE:</strong> No query in progress. Browser has not made a DNS request.</li>
+                <li><strong>CLIENT QUERY:</strong> Browser requests IP for a domain from the Recursive Resolver.</li>
+                <li><strong>CACHE CHECK:</strong> Resolver checks its local cache. If found, skips to DELIVERED.</li>
+                <li><strong>ROOT QUERY:</strong> Resolver asks a Root Server which TLD server to contact.</li>
+                <li><strong>TLD QUERY:</strong> Resolver asks the .com TLD Server for the Authoritative server.</li>
+                <li><strong>AUTH QUERY:</strong> Resolver asks the Authoritative Server for the final IP address.</li>
+                <li><strong>IP RETURNED:</strong> Authoritative Server returns the A record (IP address).</li>
+                <li><strong>CACHED:</strong> Resolver caches the response for future queries (TTL applied).</li>
+                <li><strong>DELIVERED:</strong> Resolver sends the IP address back to the Client browser.</li>
+                <li><strong>NXDOMAIN:</strong> Domain does not exist — error returned to client.</li>
+            </ol>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= QUERY LOG ANALYZER ================= -->
+<div id="section-analyzer" class="page-section">
+    <div class="content">
+
+        <h1>DNS Query Log Analyzer</h1>
+
+        <table id="analyzerTable">
+            <tr>
+                <th>Step</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Message</th>
+                <th>Response</th>
+                <th>Status</th>
+                <th>Description</th>
+            </tr>
+        </table>
+
+        <div style="margin-top:20px;">
+            <button onclick="clearAnalyzer()">Clear Log</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= DNS vs HTTP SECTION ================= -->
+<div id="section-comparison" class="page-section">
+    <div class="content">
+
+        <h1 class="center-title">DNS vs HTTP Comparison</h1>
+
+        <div class="card">
+            <h2>Protocol Comparison</h2>
+            <table>
+                <tr>
+                    <th>Feature</th><th>DNS</th><th>HTTP</th>
+                </tr>
+                <tr><td>Purpose</td><td>Name Resolution</td><td>Data Transfer</td></tr>
+                <tr><td>Transport</td><td>UDP (port 53)</td><td>TCP (port 80/443)</td></tr>
+                <tr><td>Connection</td><td>Connectionless</td><td>Connection-based</td></tr>
+                <tr><td>Response Size</td><td>Small (bytes)</td><td>Large (KB–MB)</td></tr>
+                <tr><td>Caching</td><td>TTL-based</td><td>Cache-Control headers</td></tr>
+                <tr><td>Security</td><td>DNSSEC</td><td>HTTPS / TLS</td></tr>
+                <tr><td>Layer</td><td>Application Layer</td><td>Application Layer</td></tr>
+                <tr><td>Initiated by</td><td>Resolver</td><td>Browser</td></tr>
+                <tr><td>Response Type</td><td>IP Address / Record</td><td>HTML / JSON / Media</td></tr>
+            </table>
+        </div>
+
+        <div class="protocol-container">
+            <div class="protocol-card tcp-card">
+                <h2>DNS Use Cases</h2>
+                <ul>
+                    <li>Translating domain to IP</li>
+                    <li>Mail server lookup (MX)</li>
+                    <li>Load balancing via multiple A records</li>
+                    <li>CDN routing</li>
+                    <li>Service discovery in microservices</li>
+                </ul>
+            </div>
+            <div class="protocol-card udp-card">
+                <h2>HTTP Use Cases</h2>
+                <ul>
+                    <li>Loading web pages</li>
+                    <li>REST API communication</li>
+                    <li>File downloads</li>
+                    <li>Streaming media</li>
+                    <li>Web application data exchange</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= QUIZ SECTION ================= -->
+<div id="section-quiz" class="page-section">
+    <div class="content">
+
+        <h1 class="quiz-title">DNS Knowledge Quiz</h1>
+
+        <div class="quiz-card">
+
+            <div class="question">
+                <p>1. DNS stands for?</p>
+                <label><input type="radio" name="q1" value="a"> Domain Name System</label>
+                <label><input type="radio" name="q1" value="b"> Dynamic Network Service</label>
+                <label><input type="radio" name="q1" value="c"> Data Name Server</label>
+            </div>
+
+            <div class="question">
+                <p>2. DNS primarily uses which port and protocol?</p>
+                <label><input type="radio" name="q2" value="a"> TCP port 80</label>
+                <label><input type="radio" name="q2" value="b"> UDP port 53</label>
+                <label><input type="radio" name="q2" value="c"> TCP port 443</label>
+            </div>
+
+            <div class="question">
+                <p>3. Which DNS server holds the final IP address record for a domain?</p>
+                <label><input type="radio" name="q3" value="a"> Root Server</label>
+                <label><input type="radio" name="q3" value="b"> TLD Server</label>
+                <label><input type="radio" name="q3" value="c"> Authoritative Server</label>
+            </div>
+
+            <div class="question">
+                <p>4. What does TTL stand for in DNS?</p>
+                <label><input type="radio" name="q4" value="a"> Transfer Time Limit</label>
+                <label><input type="radio" name="q4" value="b"> Time To Live</label>
+                <label><input type="radio" name="q4" value="c"> Total Transfer Length</label>
+            </div>
+
+            <div class="question">
+                <p>5. How many root DNS server clusters exist globally?</p>
+                <label><input type="radio" name="q5" value="a"> 5</label>
+                <label><input type="radio" name="q5" value="b"> 13</label>
+                <label><input type="radio" name="q5" value="c"> 26</label>
+            </div>
+
+            <button class="quiz-btn" onclick="submitQuiz()">Submit Quiz</button>
+
+            <div id="result" class="quiz-result"></div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= ABOUT SECTION ================= -->
+<div id="section-about" class="page-section">
+    <div class="content">
+
+        <h1>About This Project</h1>
+
+        <p>
+            This project is an interactive DNS Resolution Simulator developed to demonstrate
+            how the Domain Name System resolves domain names into IP addresses using a
+            step-by-step animated simulation of the full resolver chain.
+        </p>
+
+        <h2>Technologies Used</h2>
+        <ul>
+            <li>HTML5</li>
+            <li>CSS3 (animations, transitions)</li>
+            <li>Vanilla JavaScript</li>
+        </ul>
+
+        <h2>Project Modules</h2>
+        <ul>
+            <li>Theory Module</li>
+            <li>DNS Resolution Simulation (Step-by-step + Auto Run)</li>
+            <li>DNS Resolution Flow Chart</li>
+            <li>Query Log Analyzer</li>
+            <li>DNS vs HTTP Comparison</li>
+            <li>Quiz Module</li>
+        </ul>
+
+        <h2>Simulation Flow</h2>
+        <ul>
+            <li>Client → Recursive Resolver: DNS query</li>
+            <li>Resolver → Root Server: Who handles .com?</li>
+            <li>Root → Resolver: Contact .com TLD server</li>
+            <li>Resolver → TLD Server: Who handles example.com?</li>
+            <li>TLD → Resolver: Contact ns1.example.com</li>
+            <li>Resolver → Authoritative: What is the IP of www.example.com?</li>
+            <li>Authoritative → Resolver: IP is 93.184.216.34</li>
+            <li>Resolver → Client: Here is the IP address</li>
+        </ul>
+
+    </div>
+</div>
+
+
+<script src="dns_simulator.js"></script>
+
+</body>
+</html>

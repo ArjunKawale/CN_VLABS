@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP Protocol Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+      <button class="dark-toggle" onclick="window.location.href='../Main.html'" style="margin-right: 10px;">< Back</button>
+    <ul>
+        <li><a onclick="showSection('section-home')" data-section="section-home">Home</a></li>
+        <li><a onclick="showSection('section-theory')" data-section="section-theory">Theory</a></li>
+        <li><a onclick="showSection('section-simulation')" data-section="section-simulation">Simulation</a></li>
+        <li><a onclick="showSection('section-state')" data-section="section-state">State Machine</a></li>
+        <li><a onclick="showSection('section-analyzer')" data-section="section-analyzer">Packet Analyzer</a></li>
+        <li><a onclick="showSection('section-tcpudp')" data-section="section-tcpudp">TCP vs UDP</a></li>
+        <li><a onclick="showSection('section-quiz')" data-section="section-quiz">Quiz</a></li>
+        <li><a onclick="showSection('section-about')" data-section="section-about">About</a></li>
+    </ul>
+    <button class="dark-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+</nav>
+
+
+<!-- ================= HOME SECTION ================= -->
+<div id="section-home" class="page-section">
+
+    <div class="hero">
+        <h1>TCP Protocol Simulator</h1>
+        <p>
+            Interactive simulator for understanding TCP connection establishment,
+            TCP state transitions, packet retransmission, and connection termination.
+        </p>
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+            <h2>Project Overview</h2>
+            <p>
+                Transmission Control Protocol (TCP) is a connection-oriented protocol
+                that ensures reliable communication between devices over a network.
+                This simulator demonstrates the working of TCP including the
+                3-way handshake, state machine transitions, packet loss,
+                retransmission mechanisms, and connection termination.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>TCP Theory Summary</h2>
+            <ul>
+                <li>TCP is a reliable, connection-oriented protocol.</li>
+                <li>Uses sequence numbers and acknowledgement numbers.</li>
+                <li>Establishes connection using 3-way handshake.</li>
+                <li>Terminates connection using 4-way handshake.</li>
+                <li>Uses sliding window for flow control.</li>
+                <li>Uses congestion control algorithms.</li>
+                <li>Supports retransmission when packets are lost.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Simulator Features</h2>
+            <ul>
+                <li>TCP 3-Way Handshake Simulation</li>
+                <li>Packet Loss Simulation</li>
+                <li>Retransmission Mechanism</li>
+                <li>TCP State Machine Visualization</li>
+                <li>Packet Analyzer</li>
+                <li>TCP vs UDP Comparison</li>
+                <li>Interactive Quiz</li>
+            </ul>
+        </div>
+
+        <div class="card-container">
+            <div class="feature-card">
+                <h3>Simulation</h3>
+                <p>Run TCP handshake and packet loss simulations.</p>
+                <a onclick="showSection('section-simulation')">Open</a>
+            </div>
+            <div class="feature-card">
+                <h3>State Machine</h3>
+                <p>View TCP connection states.</p>
+                <a onclick="showSection('section-state')">Open</a>
+            </div>
+            <div class="feature-card">
+                <h3>Packet Analyzer</h3>
+                <p>Analyze generated TCP packets.</p>
+                <a onclick="showSection('section-analyzer')">Open</a>
+            </div>
+            <div class="feature-card">
+                <h3>Quiz</h3>
+                <p>Test your TCP knowledge.</p>
+                <a onclick="showSection('section-quiz')">Open</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= THEORY SECTION ================= -->
+<div id="section-theory" class="page-section">
+    <div class="content">
+
+        <h1>TCP Theory</h1>
+
+        <h2>1. Introduction to TCP</h2>
+        <p>
+            Transmission Control Protocol (TCP) is a connection-oriented protocol used for reliable data transmission.
+            TCP ensures data is delivered in order, without errors, and without loss.
+            It is used in applications like HTTP, FTP, Email, and File Transfer.
+        </p>
+
+        <h2>2. TCP vs UDP</h2>
+        <table>
+            <tr>
+                <th>Feature</th><th>TCP</th><th>UDP</th>
+            </tr>
+            <tr><td>Connection</td><td>Connection Oriented</td><td>Connectionless</td></tr>
+            <tr><td>Reliability</td><td>Reliable</td><td>Unreliable</td></tr>
+            <tr><td>Speed</td><td>Slower</td><td>Faster</td></tr>
+            <tr><td>Ordering</td><td>Ordered</td><td>Unordered</td></tr>
+            <tr><td>Applications</td><td>HTTP, FTP, Email</td><td>DNS, Streaming</td></tr>
+        </table>
+
+        <h2>3. TCP Header</h2>
+        <p>
+            TCP header contains important fields such as Source Port, Destination Port,
+            Sequence Number, Acknowledgement Number, Flags, Window Size, and Checksum.
+        </p>
+
+        <h2>4. Sequence Number and Acknowledgement Number</h2>
+        <p>
+            Sequence Number identifies the byte number of the data being sent.
+            Acknowledgement Number indicates the next expected byte from the sender.
+            These numbers ensure reliable and ordered data delivery.
+        </p>
+
+        <h2>5. TCP Flags</h2>
+        <ul>
+            <li>SYN – Synchronize sequence numbers</li>
+            <li>ACK – Acknowledgement</li>
+            <li>FIN – Finish connection</li>
+            <li>RST – Reset connection</li>
+            <li>PSH – Push data immediately</li>
+            <li>URG – Urgent data</li>
+        </ul>
+
+        <h2>6. TCP 3-Way Handshake</h2>
+        <p>TCP uses a 3-way handshake to establish a connection between client and server.</p>
+        <ol>
+            <li>Client sends SYN</li>
+            <li>Server sends SYN-ACK</li>
+            <li>Client sends ACK</li>
+        </ol>
+
+        <h2>7. Connection Termination (4-Way Handshake)</h2>
+        <ol>
+            <li>Client sends FIN</li>
+            <li>Server sends ACK</li>
+            <li>Server sends FIN</li>
+            <li>Client sends ACK</li>
+        </ol>
+
+        <h2>8. TCP State Machine</h2>
+        <p>
+            TCP connection goes through multiple states such as CLOSED, SYN_SENT,
+            SYN_RECEIVED, ESTABLISHED, FIN_WAIT, CLOSE_WAIT, LAST_ACK, and TIME_WAIT.
+        </p>
+
+        <h2>9. Flow Control (Sliding Window)</h2>
+        <p>
+            TCP uses sliding window mechanism for flow control.
+            It ensures that sender does not send more data than receiver can handle.
+        </p>
+
+        <h2>10. Congestion Control</h2>
+        <p>
+            TCP uses congestion control algorithms like Slow Start,
+            Congestion Avoidance, Fast Retransmit, and Fast Recovery
+            to control network congestion.
+        </p>
+
+    </div>
+</div>
+
+
+<!-- ================= SIMULATION SECTION ================= -->
+<div id="section-simulation" class="page-section">
+    <div class="content">
+
+        <h1>TCP 3-Way Handshake Simulation</h1>
+
+        <div class="card">
+            <h2>Network Simulation</h2>
+            <div class="simulation-area">
+                <div class="client">CLIENT</div>
+                <div class="server">SERVER</div>
+                <div class="line"></div>
+                <div id="packet">SYN</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>TCP State: <span id="state">CLOSED</span></h3>
+        </div>
+
+        <div class="card">
+            <h2>Controls</h2>
+            <button onclick="startHandshake()">Normal Handshake</button>
+            <button onclick="lostSyn()">Lost SYN</button>
+            <button onclick="lostSynAck()">Lost SYN-ACK</button>
+            <button onclick="lostAck()">Lost ACK</button>
+            <button onclick="terminateConnection()">Terminate Connection</button>
+            <button onclick="resetSimulation()">Reset</button>
+        </div>
+
+        <div class="card">
+            <h2>Packet Log</h2>
+            <table id="logTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Flag</th>
+                    <th>Seq No</th>
+                    <th>Ack No</th>
+                    <th>State</th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= STATE MACHINE SECTION ================= -->
+<div id="section-state" class="page-section">
+    <div class="content">
+
+        <h1>TCP State Machine</h1>
+
+        <div class="state-container">
+            <div class="state" id="CLOSED" onclick="setState('CLOSED')">CLOSED</div>
+            <div class="state" id="LISTEN" onclick="setState('LISTEN')">LISTEN</div>
+            <div class="state" id="SYN_SENT" onclick="setState('SYN_SENT')">SYN_SENT</div>
+            <div class="state" id="SYN_RECEIVED" onclick="setState('SYN_RECEIVED')">SYN_RECEIVED</div>
+            <div class="state" id="ESTABLISHED" onclick="setState('ESTABLISHED')">ESTABLISHED</div>
+            <div class="state" id="FIN_WAIT_1" onclick="setState('FIN_WAIT_1')">FIN_WAIT_1</div>
+            <div class="state" id="FIN_WAIT_2" onclick="setState('FIN_WAIT_2')">FIN_WAIT_2</div>
+            <div class="state" id="CLOSE_WAIT" onclick="setState('CLOSE_WAIT')">CLOSE_WAIT</div>
+            <div class="state" id="LAST_ACK" onclick="setState('LAST_ACK')">LAST_ACK</div>
+            <div class="state" id="TIME_WAIT" onclick="setState('TIME_WAIT')">TIME_WAIT</div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= PACKET ANALYZER SECTION ================= -->
+<div id="section-analyzer" class="page-section">
+    <div class="content">
+
+        <h1>TCP Packet Analyzer</h1>
+
+        <table id="analyzerTable">
+            <tr>
+                <th>Step</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Flag</th>
+                <th>Seq No</th>
+                <th>Ack No</th>
+                <th>State</th>
+                <th>Description</th>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
+<!-- ================= TCP vs UDP SECTION ================= -->
+<div id="section-tcpudp" class="page-section">
+    <div class="content">
+
+        <h1 class="center-title">TCP vs UDP Comparison</h1>
+
+        <div class="card">
+            <h2>Protocol Comparison</h2>
+            <table>
+                <tr>
+                    <th>Feature</th><th>TCP</th><th>UDP</th>
+                </tr>
+                <tr><td>Connection Type</td><td>Connection Oriented</td><td>Connectionless</td></tr>
+                <tr><td>Reliability</td><td>Reliable</td><td>Unreliable</td></tr>
+                <tr><td>Error Checking</td><td>Yes</td><td>Yes (Basic)</td></tr>
+                <tr><td>Flow Control</td><td>Yes</td><td>No</td></tr>
+                <tr><td>Congestion Control</td><td>Yes</td><td>No</td></tr>
+                <tr><td>Speed</td><td>Slower</td><td>Faster</td></tr>
+                <tr><td>Header Size</td><td>20–60 bytes</td><td>8 bytes</td></tr>
+                <tr><td>Ordering</td><td>Ordered Delivery</td><td>No Ordering</td></tr>
+                <tr><td>Applications</td><td>HTTP, FTP, Email</td><td>DNS, Streaming, VoIP</td></tr>
+            </table>
+        </div>
+
+        <div class="protocol-container">
+            <div class="protocol-card tcp-card">
+                <h2>When to Use TCP</h2>
+                <ul>
+                    <li>File Transfer</li>
+                    <li>Email</li>
+                    <li>Web Browsing</li>
+                    <li>Database Applications</li>
+                    <li>Secure Data Transmission</li>
+                </ul>
+            </div>
+            <div class="protocol-card udp-card">
+                <h2>When to Use UDP</h2>
+                <ul>
+                    <li>Video Streaming</li>
+                    <li>Online Gaming</li>
+                    <li>DNS</li>
+                    <li>VoIP</li>
+                    <li>Real-time Applications</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= QUIZ SECTION ================= -->
+<div id="section-quiz" class="page-section">
+    <div class="content">
+
+        <h1 class="quiz-title">TCP Protocol Quiz</h1>
+
+        <div class="quiz-card">
+
+            <div class="question">
+                <p>1. TCP stands for?</p>
+                <label><input type="radio" name="q1" value="a"> Transmission Control Protocol</label>
+                <label><input type="radio" name="q1" value="b"> Transfer Communication Protocol</label>
+                <label><input type="radio" name="q1" value="c"> Transmission Connection Process</label>
+            </div>
+
+            <div class="question">
+                <p>2. How many steps in TCP handshake?</p>
+                <label><input type="radio" name="q2" value="a"> 2</label>
+                <label><input type="radio" name="q2" value="b"> 3</label>
+                <label><input type="radio" name="q2" value="c"> 4</label>
+            </div>
+
+            <div class="question">
+                <p>3. Which flag is used to start connection?</p>
+                <label><input type="radio" name="q3" value="a"> ACK</label>
+                <label><input type="radio" name="q3" value="b"> FIN</label>
+                <label><input type="radio" name="q3" value="c"> SYN</label>
+            </div>
+
+            <div class="question">
+                <p>4. TCP is?</p>
+                <label><input type="radio" name="q4" value="a"> Connectionless</label>
+                <label><input type="radio" name="q4" value="b"> Connection Oriented</label>
+            </div>
+
+            <div class="question">
+                <p>5. Which protocol is faster?</p>
+                <label><input type="radio" name="q5" value="a"> TCP</label>
+                <label><input type="radio" name="q5" value="b"> UDP</label>
+            </div>
+
+            <button class="quiz-btn" onclick="submitQuiz()">Submit Quiz</button>
+
+            <div id="result" class="quiz-result"></div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= ABOUT SECTION ================= -->
+<div id="section-about" class="page-section">
+    <div class="content">
+
+        <h1>About This Project</h1>
+
+        <p>
+            This project is an interactive TCP Protocol Simulator developed
+            to demonstrate TCP connection establishment, connection termination,
+            TCP state transitions, packet retransmission, and protocol analysis.
+        </p>
+
+        <h2>Technologies Used</h2>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+        </ul>
+
+        <h2>Project Modules</h2>
+        <ul>
+            <li>Theory Module</li>
+            <li>Handshake Simulation</li>
+            <li>TCP State Machine</li>
+            <li>Packet Analyzer</li>
+            <li>TCP vs UDP Comparison</li>
+            <li>Quiz Module</li>
+        </ul>
+
+    </div>
+</div>
+
+
+<script src="main.js"></script>
+
+</body>
+</html>

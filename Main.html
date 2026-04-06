@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual Labs - Computer Networking</title>
+    <link rel="stylesheet" href="Main.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-brand">Virtual Labs</div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Virtual Labs - Computer Networking</h1>
+      <p>Vidyalankar Institute of Technology</p>
+
+      <div class="hero-badges">
+        <span class="badge">Interactive Simulations</span>
+        <span class="badge">Concept + Practice</span>
+        <span class="badge">Exam Ready</span>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="card">
+        <h2>Available Experiments</h2>
+
+        <div class="card-container" id="experimentList">
+          <!-- Experiments will be injected here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+      const experiments = [
+        {
+          title: "DHCP Simulation",
+          desc: "Visualize dynamic IP allocation using the DORA process step by step.",
+          page: "DHCP/index.html",
+        },
+        {
+          title: "Subnetting Simulator",
+          desc: "Perform subnet calculations and understand network segmentation visually.",
+          page: "FinalSubnetting/index.html",
+        },
+        {
+          title: "Network Routing",
+          desc: "Explore how data packets are routed across different networks.",
+          page: "Network_Routing/index.html",
+        },
+        {
+          title: "TCP Handshake",
+          desc: "Understand the SYN, SYN-ACK, ACK connection establishment process.",
+          page: "updated_VLab/main.html",
+        },
+        {
+          title: "DNS Server",
+          desc: "Learn how domain names are resolved into IP addresses step by step.",
+          page: "DNS_Simulator/dns_simulator.html",
+        },
+      ];
+
+      function renderExperiments() {
+        const container = document.getElementById("experimentList");
+
+        container.innerHTML = experiments
+          .map(
+            (exp) => `
+        <div class="feature-card">
+          <h3>${exp.title}</h3>
+          <p>${exp.desc}</p>
+          <button onclick="goTo('${exp.page}')">Open Lab</button>
+        </div>
+      `,
+          )
+          .join("");
+      }
+
+      function goTo(page) {
+        window.location.href = page;
+      }
+
+      function toggleDark() {
+        document.body.classList.toggle("dark");
+      }
+
+      renderExperiments();
+    </script>
+  </body>
+</html>

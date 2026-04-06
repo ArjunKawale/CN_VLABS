@@ -1,0 +1,432 @@
+/* ============================================================
+   CSS VARIABLES — Light & Dark themes
+============================================================ */
+:root {
+  --bg:              hsl(216, 33%, 97%);
+  --fg:              hsl(220, 25%, 10%);
+  --card:            hsl(0,   0%,  100%);
+  --card-fg:         hsl(220, 25%, 10%);
+  --muted:           hsl(216, 33%, 97%);
+  --muted-fg:        hsl(220, 10%, 45%);
+  --primary:         hsl(220, 85%, 31%);   /* #0b3d91 */
+  --primary-fg:      #ffffff;
+  --accent:          hsl(215, 85%, 52%);   /* #1f6feb */
+  --accent-fg:       #ffffff;
+  --secondary:       hsl(170, 60%, 45%);   /* teal */
+  --border:          hsl(0,   0%,  87%);
+  --success:         hsl(145, 65%, 42%);
+  --destructive:     hsl(0,   72%, 55%);
+  --btn-bg:          hsl(215, 85%, 52%);
+  --btn-hover:       hsl(220, 72%, 33%);
+  --table-header:    hsl(220, 85%, 31%);
+  --nav-bg:          hsl(220, 85%, 31%);
+  --shadow:          0 4px 12px rgba(0,0,0,0.10);
+  --shadow-sm:       0 1px 4px  rgba(0,0,0,0.07);
+  --radius:          10px;
+  --radius-sm:       6px;
+}
+html.dark {
+  --bg:              hsl(215, 28%,  7%);
+  --fg:              hsl(215, 25%, 90%);
+  --card:            hsl(215, 24%, 13%);
+  --card-fg:         hsl(215, 25%, 90%);
+  --muted:           hsl(215, 20%, 18%);
+  --muted-fg:        hsl(215, 15%, 60%);
+  --primary:         hsl(215, 85%, 52%);
+  --primary-fg:      #ffffff;
+  --accent:          hsl(215, 85%, 60%);
+  --secondary:       hsl(170, 60%, 45%);
+  --border:          hsl(215, 18%, 22%);
+  --success:         hsl(145, 65%, 42%);
+  --destructive:     hsl(0,   72%, 58%);
+  --btn-bg:          hsl(215, 85%, 52%);
+  --btn-hover:       hsl(215, 85%, 62%);
+  --table-header:    hsl(220, 60%, 28%);
+  --nav-bg:          hsl(220, 85%, 31%);
+  --shadow:          0 4px 12px rgba(0,0,0,0.35);
+  --shadow-sm:       0 1px 4px  rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   BASE RESET
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+h1 { font-size: 1.9rem;  font-weight: 700; margin-bottom: 16px; }
+h2 { font-size: 1.2rem;  font-weight: 700; margin: 24px 0 8px; }
+h3 { font-size: 1rem;    font-weight: 700; margin-bottom: 6px; }
+p  { margin-bottom: 10px; }
+ul { padding-left: 22px; margin-bottom: 10px; }
+li { margin-bottom: 5px; }
+strong { font-weight: 700; }
+sup { font-size: 0.72em; vertical-align: super; }
+
+code {
+  font-family: monospace;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+/* ============================================================
+   NAV
+============================================================ */
+nav {
+  background: var(--nav-bg);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.22);
+}
+
+.nav-brand {
+  font-size: 1.1em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.nav-links li { display: inline; }
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  transition: background 0.18s;
+  display: inline-block;
+  font-size: 0.95em;
+}
+.nav-links a:hover  { background: rgba(255,255,255,0.15); }
+.nav-links a.active { background: rgba(255,255,255,0.22); text-decoration: underline; }
+
+.nav-toggle-btn {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.38);
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.18s;
+  white-space: nowrap;
+}
+.nav-toggle-btn:hover { background: rgba(255,255,255,0.30); }
+
+/* ============================================================
+   SECTION VISIBILITY
+============================================================ */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero {
+  background: linear-gradient(135deg, hsl(220,85%,31%), hsl(222,100%,8%));
+  color: #fff;
+  padding: 76px 24px;
+  text-align: center;
+}
+.hero h1 { font-size: 2.4rem; margin-bottom: 12px; color: #fff; }
+.hero p  { font-size: 1.1rem; max-width: 680px; margin: 0 auto; color: rgba(255,255,255,0.86); }
+
+/* ============================================================
+   SECTION BODY
+============================================================ */
+.section-body { padding: 30px; }
+.section-body h1 { margin-bottom: 16px; }
+@media (max-width: 700px) { .section-body { padding: 16px; } }
+
+/* ============================================================
+   SIM CARD
+============================================================ */
+.sim-card {
+  background: var(--card);
+  color: var(--card-fg);
+  padding: 22px;
+  margin: 20px auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 90%;
+}
+.sim-card h2:first-child { margin-top: 0; }
+@media (max-width: 700px) { .sim-card { width: 100%; } }
+
+/* ============================================================
+   FEATURE GRID
+============================================================ */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+@media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 500px) { .feature-grid { grid-template-columns: 1fr; } }
+
+.feature-card {
+  background: var(--card);
+  color: var(--card-fg);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.13); }
+.feature-card h3 { margin-bottom: 8px; }
+.feature-card p  { font-size: 0.88em; margin-bottom: 14px; color: var(--muted-fg); }
+
+/* ============================================================
+   GLASS CARD (simulation tables)
+============================================================ */
+.glass-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.glass-card table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+.glass-card table thead tr {
+  background: rgba(11,61,145,0.08);
+}
+html.dark .glass-card table thead tr {
+  background: rgba(31,111,235,0.14);
+}
+.glass-card table th {
+  padding: 10px 16px;
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.glass-card table td {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+}
+.glass-card table tbody tr:hover td { background: var(--muted); }
+
+/* ============================================================
+   SIM TABLE (theory / reference)
+============================================================ */
+.sim-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.sim-table th, .sim-table td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: center;
+}
+.sim-table th {
+  background: var(--table-header);
+  color: #fff;
+  font-weight: 700;
+}
+.sim-table td { background: var(--card); color: var(--card-fg); }
+.sim-table tr:hover td { background: var(--muted); }
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.sim-btn {
+  background: var(--btn-bg);
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  margin: 4px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.93em;
+  transition: background 0.18s, transform 0.12s;
+  font-family: inherit;
+}
+.sim-btn:hover        { background: var(--btn-hover); }
+.sim-btn:active       { transform: scale(0.97); }
+.sim-btn.active-tab   { background: var(--primary); text-decoration: underline; }
+
+.btn-lg {
+  padding: 11px 30px;
+  font-size: 1em;
+  border-radius: 8px;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline:hover { background: var(--muted); }
+
+/* ============================================================
+   INPUTS
+============================================================ */
+.sim-input {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 7px 10px;
+  font-family: monospace;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.93em;
+  transition: border 0.18s, box-shadow 0.18s;
+  outline: none;
+}
+.sim-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31,111,235,0.14);
+}
+
+/* ============================================================
+   ICONS
+============================================================ */
+.icon-check { color: var(--success); }
+.icon-x     { color: var(--destructive); }
+.icon-inline {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+/* ============================================================
+   STATUS MESSAGES
+============================================================ */
+.msg-success {
+  color: var(--success);
+  font-weight: 700;
+  text-align: center;
+  margin-top: 12px;
+}
+.msg-hint {
+  color: var(--muted-fg);
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   BADGES
+============================================================ */
+.badge {
+  font-family: monospace;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 5px;
+  font-size: 0.92em;
+}
+.badge-primary   { background: rgba(11,61,145,0.10); color: var(--primary); border: 1px solid var(--primary); }
+.badge-secondary { background: rgba(13,148,136,0.10); color: var(--secondary); border: 1px solid var(--secondary); }
+
+/* ============================================================
+   PRACTICE INFO BAR
+============================================================ */
+.practice-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-size: 0.9em;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   QUIZ
+============================================================ */
+.quiz-wrapper {
+  width: 60%;
+  margin: 0 auto;
+  background: var(--card);
+  color: var(--card-fg);
+  padding: 26px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 800px) { .quiz-wrapper { width: 96%; } }
+
+.quiz-question {
+  background: var(--muted);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 16px;
+}
+.quiz-question p    { font-weight: 700; margin-bottom: 10px; }
+.quiz-question label {
+  display: block;
+  padding: 5px 0;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.quiz-question label:hover { color: var(--accent); }
+.quiz-question label input { margin-right: 8px; }
+
+.quiz-result {
+  text-align: center;
+  font-size: 1.15em;
+  font-weight: 700;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--muted);
+}
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+.fade-in { animation: fadeIn 0.25s ease forwards; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 700px) {
+  nav { flex-direction: column; align-items: flex-start; }
+  .quiz-wrapper { width: 100%; }
+}

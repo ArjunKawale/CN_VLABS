@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DHCP Interactive Lab</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+<nav class="navbar">
+    <button class="dark-toggle" onclick="window.location.href='../Main.html'" style="margin-right: 10px;">< Back</button>
+    
+    <ul class="nav-links">
+      <li><a onclick="navigate('home')">Home</a></li>
+      <li><a onclick="navigate('theory')">Theory</a></li>
+      <li><a onclick="navigate('simulation')">Simulation</a></li>
+      <li><a onclick="navigate('quiz')">Quiz</a></li>
+    </ul>
+    <button class="dark-toggle" onclick="toggleDark()">🌙 Dark Mode</button>
+  </nav>
+
+  <!-- ======================== HOME ======================== -->
+  <div id="section-home" class="section active">
+    <div class="hero">
+      <h1>DHCP Interactive Lab</h1>
+      <p>Understand Dynamic Host Configuration Protocol through animated simulation, theory & quizzes</p>
+
+    </div>
+    <div class="content">
+      <div class="card">
+        <h2>Welcome to the DHCP Lab</h2>
+        <p>This interactive lab helps you master DHCP — the protocol that automatically assigns IP addresses on every network you've ever connected to. Explore the <b>DORA</b> (Discover → Offer → Request → ACK) process through live animations, detailed theory, and exam-style MCQs.</p>
+      </div>
+      <div class="card-container">
+        <div class="feature-card">
+          <div class="feature-icon">📘</div>
+          <h3>Theory</h3>
+          <p>Concepts, DORA process, ports, lease mechanism & advantages — all exam-ready.</p>
+          <button onclick="navigate('theory')">Open</button>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🖥️</div>
+          <h3>Simulation</h3>
+          <p>Watch animated DORA packets flow between clients and server with live IP assignment.</p>
+          <button onclick="navigate('simulation')">Open</button>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>Quiz</h3>
+          <p>10 exam-ready MCQs on DHCP concepts with instant feedback and score review.</p>
+          <button onclick="navigate('quiz')">Open</button>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Quick Facts</h3>
+          <p>Server: Port <b>67</b> · Client: Port <b>68</b> · Protocol: <b>UDP</b> · APIPA: <b>169.254.x.x</b></p>
+          <button onclick="navigate('theory')">Learn More</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== THEORY ======================== -->
+  <div id="section-theory" class="section">
+    <div class="hero">
+      <h1>DHCP Theory</h1>
+      <p>Everything you need to know — from basics to exam-level depth</p>
+    </div>
+    <div class="content">
+
+      <div class="tab-bar" id="theory-tabs">
+        <button class="tab active" onclick="theoryTab('basics', this)">📖 Basics</button>
+        <button class="tab" onclick="theoryTab('dora', this)">⭐ DORA Process</button>
+        <button class="tab" onclick="theoryTab('technical', this)">🔧 Technical</button>
+        <button class="tab" onclick="theoryTab('adv', this)">⚖️ Pros &amp; Cons</button>
+      </div>
+
+      <!-- BASICS TAB -->
+      <div id="theory-basics" class="tab-content active">
+        <div class="card">
+          <h2>What is DHCP?</h2>
+          <p><b>Dynamic Host Configuration Protocol (DHCP)</b> is a client-server protocol that automatically assigns IP addresses and other network configuration parameters to devices on a network.</p>
+        </div>
+        <div class="card">
+          <h2>Why DHCP is Needed</h2>
+          <ul class="styled-list">
+            <li>Manual IP configuration is time-consuming and error-prone</li>
+            <li>Duplicate IPs cause network conflicts</li>
+            <li>Not scalable for large or dynamic networks</li>
+          </ul>
+          <div class="highlight-box">💡 DHCP automates everything → plug-and-play networking for any device that joins the network</div>
+        </div>
+        <div class="card">
+          <h2>What DHCP Provides</h2>
+          <p>When a client connects, DHCP automatically configures:</p>
+          <div class="info-grid">
+            <div class="info-item"><b>🔢 IP Address</b><span>Unique network identifier for the device</span></div>
+            <div class="info-item"><b>🔲 Subnet Mask</b><span>Defines the network boundary</span></div>
+            <div class="info-item"><b>🚪 Default Gateway</b><span>Router address to reach other networks</span></div>
+            <div class="info-item"><b>🌐 DNS Server</b><span>Resolves domain names to IPs</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>DHCP Architecture</h2>
+          <div class="arch-diagram">
+            <div class="arch-node client-node">Client<br><small>Requests config</small></div>
+            <div class="arch-arrow">⟵ DORA ⟶</div>
+            <div class="arch-node server-node">DHCP Server<br><small>Assigns IP from pool</small></div>
+            <div class="arch-arrow">⟵ relay ⟶</div>
+            <div class="arch-node relay-node">Relay Agent<br><small>Forwards across subnets</small></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DORA TAB -->
+      <div id="theory-dora" class="tab-content">
+        <div class="card">
+          <h2>⭐ The DORA Process</h2>
+          <p>DORA is the four-step handshake that DHCP uses to assign an IP address. Every time a device connects to a network, it performs DORA.</p>
+        </div>
+        <div class="dora-steps">
+          <div class="dora-step discover">
+            <div class="step-badge discover-badge">D</div>
+            <div class="step-info">
+              <h3>1. DISCOVER</h3>
+              <p>Client has no IP yet. It broadcasts a <code>DHCPDISCOVER</code> message to locate any DHCP servers on the network.</p>
+              <div class="step-detail">
+                <span>Source IP: <code>0.0.0.0</code></span>
+                <span>Destination: <code>255.255.255.255</code></span>
+                <span>Protocol: <code>UDP</code></span>
+              </div>
+            </div>
+          </div>
+          <div class="dora-step offer">
+            <div class="step-badge offer-badge">O</div>
+            <div class="step-info">
+              <h3>2. OFFER</h3>
+              <p>The DHCP server receives the discover, picks an available IP from its pool, and sends a <code>DHCPOFFER</code> unicast back to the client.</p>
+              <div class="step-detail">
+                <span>Offered IP address</span>
+                <span>Subnet mask &amp; gateway</span>
+                <span>Lease duration</span>
+              </div>
+            </div>
+          </div>
+          <div class="dora-step request">
+            <div class="step-badge request-badge">R</div>
+            <div class="step-info">
+              <h3>3. REQUEST</h3>
+              <p>Client accepts the offer and broadcasts a <code>DHCPREQUEST</code> to confirm it wants that specific IP. Broadcast allows other servers to know the offer was accepted.</p>
+              <div class="step-detail">
+                <span>Client selects one server</span>
+                <span>Still broadcast (notifies all servers)</span>
+                <span>Contains offered IP address</span>
+              </div>
+            </div>
+          </div>
+          <div class="dora-step ack">
+            <div class="step-badge ack-badge">A</div>
+            <div class="step-info">
+              <h3>4. ACK</h3>
+              <p>Server sends <code>DHCPACK</code> confirming the IP assignment. The client now configures its network interface and the lease timer begins.</p>
+              <div class="step-detail">
+                <span>IP lease begins</span>
+                <span>Countdown timer starts</span>
+                <span>Client is now BOUND</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TECHNICAL TAB -->
+      <div id="theory-technical" class="tab-content">
+        <div class="card">
+          <h2>Ports Used</h2>
+          <div class="port-table">
+            <div class="port-row header"><span>Entity</span><span>Port</span><span>Protocol</span><span>Direction</span></div>
+            <div class="port-row"><span>🖥️ DHCP Server</span><span><b>67</b></span><span>UDP</span><span>Receives from clients</span></div>
+            <div class="port-row"><span>💻 DHCP Client</span><span><b>68</b></span><span>UDP</span><span>Receives from server</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Lease Mechanism</h2>
+          <p>IP addresses are not permanently assigned — they are given for a <b>lease period</b>.</p>
+          <ul class="styled-list">
+            <li>At <b>50%</b> of lease: client sends unicast DHCPREQUEST to renew</li>
+            <li>At <b>87.5%</b> of lease: client broadcasts DHCPREQUEST if no response</li>
+            <li>At <b>100%</b> (expiry): IP is released back to the pool, client must restart DORA</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>APIPA (Automatic Private IP Addressing)</h2>
+          <div class="highlight-box warn">⚠️ If DHCP fails or no server is reachable, the operating system auto-assigns an IP from the <b>169.254.x.x</b> range. This is only usable within the same local subnet — no internet access.</div>
+        </div>
+      </div>
+
+      <!-- PROS & CONS TAB -->
+      <div id="theory-adv" class="tab-content">
+        <div class="card">
+          <h2>✅ Advantages</h2>
+          <ul class="styled-list">
+            <li>Automatic IP configuration — no manual entry needed</li>
+            <li>Reduces administrative workload drastically</li>
+            <li>Efficient IP reuse: IPs return to pool after lease expires</li>
+            <li>Centralized management of all network configurations</li>
+            <li>Scales to networks of any size</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>❌ Limitations</h2>
+          <ul class="styled-list">
+            <li>Single point of failure — if server goes down, no new IPs can be assigned</li>
+            <li>Dynamic IPs can break active connections when lease changes</li>
+            <li>Not recommended for servers (use static IPs for servers)</li>
+            <li>Vulnerable to DHCP spoofing / starvation attacks</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================== SIMULATION ======================== -->
+  <div id="section-simulation" class="section">
+    <div class="hero">
+      <h1>DHCP Simulation</h1>
+      <p>Watch the DORA process unfold live — request IPs, watch packets animate, see leases expire</p>
+    </div>
+    <div class="content">
+      <div class="sim-layout">
+
+        <!-- LEFT: Canvas + Controls -->
+        <div class="sim-main">
+          <div class="card canvas-card">
+            <canvas id="dhcp-canvas"></canvas>
+          </div>
+
+          <div class="card">
+            <h3>Controls</h3>
+            <div class="control-panel">
+              <button onclick="startAll()">▶ Start All</button>
+              <button onclick="addClient()">+ Add Client</button>
+              <button id="server-toggle" onclick="toggleServer()">🔴 Disable Server</button>
+              <button class="btn-reset" onclick="resetSimulation()">↺ Reset</button>
+            </div>
+            <div class="divider"></div>
+            <h4 style="margin:0 0 10px">Per-Client Actions</h4>
+            <div id="client-buttons"></div>
+          </div>
+
+          <div class="card" id="info-panel">
+            <div class="info-row">
+              <span>IP Pool: <b>9/9</b></span>
+              <span>Allocated: <b>0</b></span>
+              <span>Server: <b class="text-green">● ONLINE</b></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Log Panel -->
+        <div class="sim-log">
+          <div class="card log-card">
+            <h3>📋 Event Log</h3>
+            <div class="log-legend">
+              <span class="legend-dot" style="background:#FFC107"></span>DISCOVER &nbsp;
+              <span class="legend-dot" style="background:#2196F3"></span>OFFER &nbsp;
+              <span class="legend-dot" style="background:#FF9800"></span>REQUEST &nbsp;
+              <span class="legend-dot" style="background:#4CAF50"></span>ACK
+            </div>
+            <div id="log-panel"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== QUIZ ======================== -->
+  <div id="section-quiz" class="section">
+    <div class="hero">
+      <h1>DHCP Quiz</h1>
+      <p>10 exam-ready questions — test what you've learned</p>
+    </div>
+    <div class="content">
+      <div class="card quiz-card">
+        <div id="quiz-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

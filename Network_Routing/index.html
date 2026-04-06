@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adaptive Network Routing & Traffic Analysis</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- =================== NAVBAR =================== -->
+<nav>
+      <button class="dark-toggle" onclick="window.location.href='../Main.html'" style="margin-right: 10px;">< Back</button>
+  <ul>
+    <li><a data-section="section-home"       onclick="showSection('section-home')">Home</a></li>
+    <li><a data-section="section-theory"     onclick="showSection('section-theory')">Routing Theory</a></li>
+    <li><a data-section="section-sim"        onclick="showSection('section-sim')">Simulation</a></li>
+    <li><a data-section="section-topology"   onclick="showSection('section-topology')">Network Topology</a></li>
+    <li><a data-section="section-perf"       onclick="showSection('section-perf')">Performance</a></li>
+    <li><a data-section="section-compare"    onclick="showSection('section-compare')">Algorithm Compare</a></li>
+    <li><a data-section="section-quiz"       onclick="showSection('section-quiz')">Quiz</a></li>
+    <li><a data-section="section-about"      onclick="showSection('section-about')">About</a></li>
+  </ul>
+  <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+</nav>
+
+<!-- =================== HOME =================== -->
+<div id="section-home" class="page-section">
+  <div class="hero">
+    <h1>Adaptive Network Routing &amp; Traffic Analysis</h1>
+    <p>An interactive simulator for Dijkstra's shortest-path algorithm, end-to-end delay modelling, and multi-path performance analysis across a realistic ISP-topology network.</p>
+  </div>
+  <div class="content">
+    <div class="card">
+      <h2>Project Overview</h2>
+      <p>This simulator demonstrates how packets are routed across a network of 8 routers using Dijkstra's algorithm — the foundation of OSPF. It models all four delay components, computes routing tables, visualises the shortest path, and lets you explore alternative paths and algorithm comparisons.</p>
+    </div>
+    <div class="card">
+      <h2>Routing Theory Summary</h2>
+      <ul>
+        <li>Dijkstra (Link-State) runs in <strong>O((V+E) log V)</strong> with a min-heap.</li>
+        <li>Link cost = propagation + transmission + processing delay.</li>
+        <li>OSPF floods Link-State Advertisements (LSAs) so all routers hold identical topology maps.</li>
+        <li>ECMP: multiple equal-cost paths allow load-balancing across links.</li>
+        <li>Bandwidth-Delay Product determines optimal TCP window size.</li>
+        <li>QoS grades follow ITU-T G.114 one-way delay thresholds.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Simulator Features</h2>
+      <div class="card-container">
+        <div class="feature-card">
+          <h3>🔀 Routing Simulation</h3>
+          <p>Select source &amp; destination; watch the packet traverse shortest path hop-by-hop.</p>
+          <a onclick="showSection('section-sim')">Open</a>
+        </div>
+        <div class="feature-card">
+          <h3>🗺️ Network Topology</h3>
+          <p>Visualise the 8-router graph; highlight computed paths on the canvas.</p>
+          <a onclick="showSection('section-topology')">Open</a>
+        </div>
+        <div class="feature-card">
+          <h3>📊 Performance Analysis</h3>
+          <p>Compare all paths by delay, hop count, RTT, BDP, and QoS grade.</p>
+          <a onclick="showSection('section-perf')">Open</a>
+        </div>
+        <div class="feature-card">
+          <h3>🧩 Quiz</h3>
+          <p>Test your knowledge of routing, delay, and network fundamentals.</p>
+          <a onclick="showSection('section-quiz')">Open</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== ROUTING THEORY =================== -->
+<div id="section-theory" class="page-section">
+  <div class="content">
+    <h2>Routing Theory</h2>
+
+    <div class="card">
+      <h3>1. Introduction to Routing</h3>
+      <p>Routing is the <strong>Network Layer (L3)</strong> process of selecting paths across a network for traffic. A router maintains a <em>Routing Information Base (RIB)</em> built by protocols such as OSPF or RIP and uses it to forward packets hop-by-hop toward their destination.</p>
+    </div>
+
+    <div class="card">
+      <h3>2. Dijkstra's Algorithm (Link-State)</h3>
+      <p>Dijkstra's algorithm computes the single-source shortest path tree. It is the mathematical engine inside OSPF.</p>
+      <table>
+        <tr><th>Property</th><th>Value</th></tr>
+        <tr><td>Time Complexity</td><td>O((V + E) log V)  with binary min-heap</td></tr>
+        <tr><td>Space Complexity</td><td>O(V) for distance &amp; predecessor arrays</td></tr>
+        <tr><td>Input</td><td>Weighted undirected graph G(V, E)</td></tr>
+        <tr><td>Output</td><td>Shortest-path tree rooted at source</td></tr>
+        <tr><td>Routing Protocol</td><td>OSPF (Open Shortest Path First)</td></tr>
+      </table>
+      <p style="margin-top:14px"><strong>Steps:</strong></p>
+      <ol>
+        <li>Initialise dist[src] = 0; dist[all others] = ∞</li>
+        <li>Push source into a min-heap (priority queue)</li>
+        <li>Pop minimum-distance node <em>u</em>; mark settled</li>
+        <li>For each neighbour <em>v</em>: if dist[u] + w(u,v) &lt; dist[v] → relax</li>
+        <li>Repeat until all nodes settled</li>
+        <li>Trace predecessor map to reconstruct path</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>3. Delay Components</h3>
+      <table>
+        <tr><th>Component</th><th>Formula</th><th>Typical Range</th></tr>
+        <tr><td>Propagation Delay</td><td>Σ edge_weight along path</td><td>0.1 – 150 ms</td></tr>
+        <tr><td>Transmission Delay</td><td>(packet_bits) / bandwidth</td><td>0.001 – 10 ms</td></tr>
+        <tr><td>Processing Delay</td><td>0.5 ms × hop_count</td><td>0.5 – 5 ms</td></tr>
+        <tr><td>Queuing Delay</td><td>M/D/1: ρ² / 2(1−ρ) × T_s</td><td>0 – ∞ ms</td></tr>
+        <tr><td>Total E2E Delay</td><td>Sum of all above</td><td>—</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>4. Performance Metrics</h3>
+      <table>
+        <tr><th>Metric</th><th>Description</th></tr>
+        <tr><td>Hop Count</td><td>Number of routers traversed</td></tr>
+        <tr><td>RTT</td><td>2 × one-way E2E delay</td></tr>
+        <tr><td>Bandwidth-Delay Product</td><td>bandwidth × RTT — data "in flight"</td></tr>
+        <tr><td>Throughput (approx)</td><td>bandwidth / hop_count (bottleneck model)</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>5. QoS Classification (ITU-T G.114)</h3>
+      <table>
+        <tr><th>Grade</th><th>One-Way Delay</th><th>Use Case</th></tr>
+        <tr><td>A — Excellent</td><td>&lt; 150 ms</td><td>VoIP, real-time</td></tr>
+        <tr><td>B — Good</td><td>&lt; 400 ms</td><td>Video conferencing</td></tr>
+        <tr><td>C — Fair</td><td>&lt; 1000 ms</td><td>Data transfer</td></tr>
+        <tr><td>D — Poor</td><td>&gt; 1000 ms</td><td>Real-time not supported</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>6. OSI Layer Mapping</h3>
+      <table>
+        <tr><th>Layer</th><th>Role in Routing</th></tr>
+        <tr><td>L1 — Physical</td><td>Physical link / fibre existence</td></tr>
+        <tr><td>L2 — Data Link</td><td>MAC framing between adjacent nodes</td></tr>
+        <tr><td>L3 — Network</td><td>Routing decisions; Dijkstra lives here</td></tr>
+        <tr><td>L4 — Transport</td><td>End-to-end delay, TCP window sizing</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =================== ROUTING SIMULATION =================== -->
+<div id="section-sim" class="page-section">
+  <div class="content">
+    <h2>Routing Simulation</h2>
+
+    <div class="card">
+      <h3>Network Simulation</h3>
+      <!-- Simulation canvas -->
+      <div class="simulation-area" id="simArea">
+        <canvas id="topoCanvas" width="860" height="200"></canvas>
+        <div id="packet" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Routing State: <span id="routeState">IDLE</span></h3>
+      <p id="routeDesc" style="color:#555;margin:0;font-size:14px;">Select source and destination, then click Run Dijkstra.</p>
+    </div>
+
+    <div class="card">
+      <h3>Controls</h3>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:12px;">
+        <label>Source:
+          <select id="srcSelect" class="route-select">
+            <option>R1</option><option>R2</option><option>R3</option>
+            <option>R4</option><option>R5</option><option>R6</option>
+            <option>R7</option><option>R8</option>
+          </select>
+        </label>
+        <label>Destination:
+          <select id="dstSelect" class="route-select">
+            <option>R1</option><option>R2</option><option>R3</option>
+            <option>R4</option><option>R5</option><option>R6</option>
+            <option>R7</option><option selected>R8</option>
+          </select>
+        </label>
+        <label>Packet Size (bytes):
+          <input id="pktSize" type="number" value="1500" min="64" max="65535" style="width:90px;padding:6px;border-radius:5px;border:1px solid #ccc;">
+        </label>
+        <label>Bandwidth (Mbps):
+          <input id="bandwidth" type="number" value="100" min="1" max="10000" style="width:90px;padding:6px;border-radius:5px;border:1px solid #ccc;">
+        </label>
+      </div>
+      <button onclick="runDijkstra()">▶ Run Dijkstra</button>
+      <button onclick="simulateLoss()">⚡ Simulate Packet Loss</button>
+      <button onclick="resetSimulation()">↺ Reset</button>
+    </div>
+
+    <div class="card">
+      <h3>Packet Log</h3>
+      <table id="logTable">
+        <tr>
+          <th>Step</th><th>From</th><th>To</th><th>Flag</th>
+          <th>Link Cost (ms)</th><th>Cum. Delay (ms)</th><th>State</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =================== NETWORK TOPOLOGY =================== -->
+<div id="section-topology" class="page-section">
+  <div class="content">
+    <h2>Network Topology</h2>
+    <div class="card">
+      <p>The predefined 8-router ISP-like topology. Click a router node to highlight its shortest paths. Use the routing simulation to animate packet traversal.</p>
+      <canvas id="fullTopoCanvas" width="860" height="480" style="display:block;margin:auto;border-radius:10px;"></canvas>
+    </div>
+    <div class="card">
+      <h3>Link Table (L1 / L2 View)</h3>
+      <table id="linkTable">
+        <tr><th>Source</th><th>Destination</th><th>Cost (ms)</th><th>Status</th></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Routing Table</h3>
+      <label>Show routing table from:
+        <select id="rtSelect" onchange="renderRoutingTable()" class="route-select">
+          <option>R1</option><option>R2</option><option>R3</option>
+          <option>R4</option><option>R5</option><option>R6</option>
+          <option>R7</option><option>R8</option>
+        </select>
+      </label>
+      <table id="rtTable" style="margin-top:12px;">
+        <tr><th>Destination</th><th>Next Hop</th><th>Cost (ms)</th><th>Hops</th><th>Full Path</th></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =================== PERFORMANCE ANALYSIS =================== -->
+<div id="section-perf" class="page-section">
+  <div class="content">
+    <h2>Performance Analysis</h2>
+    <div class="card">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:12px;">
+        <label>From: <select id="perfSrc" class="route-select">
+          <option>R1</option><option>R2</option><option>R3</option>
+          <option>R4</option><option>R5</option><option>R6</option>
+          <option>R7</option><option>R8</option>
+        </select></label>
+        <label>To: <select id="perfDst" class="route-select">
+          <option>R1</option><option>R2</option><option>R3</option>
+          <option>R4</option><option>R5</option><option>R6</option>
+          <option>R7</option><option selected>R8</option>
+        </select></label>
+        <label>Packet Size (bytes): <input id="perfPkt" type="number" value="1500" min="64" max="65535" style="width:90px;padding:6px;border-radius:5px;border:1px solid #ccc;"></label>
+        <label>Bandwidth (Mbps): <input id="perfBw" type="number" value="100" min="1" max="10000" style="width:90px;padding:6px;border-radius:5px;border:1px solid #ccc;"></label>
+        <button onclick="runPerformanceAnalysis()">🔍 Analyse</button>
+      </div>
+    </div>
+
+    <div class="card" id="pathMetricsCard" style="display:none;">
+      <h3>Optimal Path Metrics</h3>
+      <div id="pathMetrics"></div>
+    </div>
+
+    <div class="card">
+      <h3>Multi-Path Comparison</h3>
+      <table id="perfTable">
+        <tr>
+          <th>Rank</th><th>Path</th><th>Hops</th>
+          <th>Cost (ms)</th><th>E2E Delay (ms)</th>
+          <th>RTT (ms)</th><th>Throughput (Mbps)</th><th>QoS Grade</th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card" id="delayBreakCard" style="display:none;">
+      <h3>Delay Breakdown (Optimal Path)</h3>
+      <div id="delayBreak"></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== ALGORITHM COMPARISON =================== -->
+<div id="section-compare" class="page-section">
+  <div class="content">
+    <h2>Algorithm Comparison</h2>
+    <div class="protocol-container">
+      <div class="protocol-card tcp-card">
+        <h2>🔵 Dijkstra (Link-State)</h2>
+        <ul>
+          <li>Used by: OSPF, IS-IS</li>
+          <li>Topology: Full map via LSA flooding</li>
+          <li>Complexity: O((V+E) log V)</li>
+          <li>Convergence: Fast (~ms after LSA)</li>
+          <li>Memory: O(V²) — full graph stored</li>
+          <li>Loop-free: Yes (SPT guarantees)</li>
+          <li>Best for: Large enterprise / ISP cores</li>
+          <li>Metric: Configurable link cost</li>
+        </ul>
+      </div>
+      <div class="protocol-card udp-card">
+        <h2>🔴 Bellman-Ford (Distance-Vector)</h2>
+        <ul>
+          <li>Used by: RIP, BGP (path-vector variant)</li>
+          <li>Topology: Partial — only neighbour info</li>
+          <li>Complexity: O(V × E)</li>
+          <li>Convergence: Slow (count-to-infinity)</li>
+          <li>Memory: O(V) — distance table only</li>
+          <li>Loop risk: Yes (requires split-horizon)</li>
+          <li>Best for: Small / stub networks</li>
+          <li>Metric: Hop count (RIP) or path attributes (BGP)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>Comparison Table</h3>
+      <table>
+        <tr><th>Feature</th><th>Dijkstra (Link-State)</th><th>Bellman-Ford (DV)</th></tr>
+        <tr><td>Algorithm Type</td><td>Greedy SPT</td><td>Dynamic Programming</td></tr>
+        <tr><td>Information Used</td><td>Full topology (global)</td><td>Neighbour distances only</td></tr>
+        <tr><td>Time Complexity</td><td>O((V+E) log V)</td><td>O(V·E)</td></tr>
+        <tr><td>Handles Neg. Weights</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Loop Freedom</td><td>Guaranteed</td><td>Not guaranteed</td></tr>
+        <tr><td>Scalability</td><td>High (with areas)</td><td>Low (count-to-∞)</td></tr>
+        <tr><td>Protocol Example</td><td>OSPF, IS-IS</td><td>RIP v1/v2</td></tr>
+        <tr><td>Convergence Speed</td><td>Fast</td><td>Slow</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Step-by-Step Dijkstra Trace</h3>
+      <div style="display:flex;gap:12px;margin-bottom:12px;">
+        <label>Source: <select id="traceSrc" class="route-select">
+          <option>R1</option><option>R2</option><option>R3</option>
+          <option>R4</option><option>R5</option><option>R6</option>
+          <option>R7</option><option>R8</option>
+        </select></label>
+        <label>Destination: <select id="traceDst" class="route-select">
+          <option>R1</option><option>R2</option><option>R3</option>
+          <option>R4</option><option>R5</option><option>R6</option>
+          <option>R7</option><option selected>R8</option>
+        </select></label>
+        <button onclick="runTrace()">▶ Trace</button>
+      </div>
+      <table id="traceTable">
+        <tr><th>Step</th><th>Settled (u)</th><th>Neighbour (v)</th><th>Link Weight</th><th>New Cost(v)</th><th>Action</th></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =================== QUIZ =================== -->
+<div id="section-quiz" class="page-section">
+  <div class="content">
+    <h2 class="quiz-title">Computer Networks Quiz</h2>
+    <div class="quiz-card">
+
+      <div class="question">
+        <p>1. What does OSPF stand for?</p>
+        <label><input type="radio" name="q1" value="a"> Open Shortest Path First</label>
+        <label><input type="radio" name="q1" value="b"> Optimised Secure Packet Forwarding</label>
+        <label><input type="radio" name="q1" value="c"> Output Signal Prioritisation Framework</label>
+      </div>
+
+      <div class="question">
+        <p>2. Dijkstra's algorithm is classified as which type?</p>
+        <label><input type="radio" name="q2" value="a"> Distance-Vector</label>
+        <label><input type="radio" name="q2" value="b"> Link-State</label>
+        <label><input type="radio" name="q2" value="c"> Path-Vector</label>
+      </div>
+
+      <div class="question">
+        <p>3. Which delay component depends on the link's transmission bandwidth?</p>
+        <label><input type="radio" name="q3" value="a"> Propagation delay</label>
+        <label><input type="radio" name="q3" value="b"> Processing delay</label>
+        <label><input type="radio" name="q3" value="c"> Transmission delay</label>
+      </div>
+
+      <div class="question">
+        <p>4. ECMP stands for:</p>
+        <label><input type="radio" name="q4" value="a"> Extended Control Message Protocol</label>
+        <label><input type="radio" name="q4" value="b"> Equal-Cost Multi-Path routing</label>
+        <label><input type="radio" name="q4" value="c"> Edge Connectivity Management Policy</label>
+      </div>
+
+      <div class="question">
+        <p>5. According to ITU-T G.114, one-way delay &lt; 150 ms is required for:</p>
+        <label><input type="radio" name="q5" value="a"> File transfer</label>
+        <label><input type="radio" name="q5" value="b"> VoIP (real-time voice)</label>
+        <label><input type="radio" name="q5" value="c"> Email</label>
+      </div>
+
+      <div class="question">
+        <p>6. Bandwidth-Delay Product (BDP) is used to determine:</p>
+        <label><input type="radio" name="q6" value="a"> Number of hops in the network</label>
+        <label><input type="radio" name="q6" value="b"> Optimal TCP window size</label>
+        <label><input type="radio" name="q6" value="c"> Router processing speed</label>
+      </div>
+
+      <div class="question">
+        <p>7. Which routing protocol uses hop count as its metric?</p>
+        <label><input type="radio" name="q7" value="a"> OSPF</label>
+        <label><input type="radio" name="q7" value="b"> RIP</label>
+        <label><input type="radio" name="q7" value="c"> IS-IS</label>
+      </div>
+
+      <div class="question">
+        <p>8. In Dijkstra's algorithm, which data structure gives the best time complexity?</p>
+        <label><input type="radio" name="q8" value="a"> Stack</label>
+        <label><input type="radio" name="q8" value="b"> Linked list</label>
+        <label><input type="radio" name="q8" value="c"> Min-heap (priority queue)</label>
+      </div>
+
+      <button class="quiz-btn" onclick="submitQuiz()">Submit Quiz</button>
+      <p class="quiz-result" id="result"></p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== ABOUT =================== -->
+<div id="section-about" class="page-section">
+  <div class="content">
+    <h2>About This Project</h2>
+    <div class="card">
+      <p>This project is an interactive <strong>Adaptive Network Routing &amp; Traffic Analysis Simulator</strong> developed to demonstrate Dijkstra's shortest-path algorithm, end-to-end delay modelling, multi-path ECMP analysis, and routing protocol theory as taught in Computer Networks (CN) courses.</p>
+    </div>
+    <div class="card">
+      <h3>Technologies Used</h3>
+      <ul>
+        <li>HTML5 / CSS3 / Vanilla JavaScript</li>
+        <li>HTML5 Canvas (topology visualisation)</li>
+        <li>Single-Page Application (SPA) architecture</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Project Modules</h3>
+      <ul>
+        <li>Routing Theory Reference</li>
+        <li>Dijkstra Routing Simulation with animation</li>
+        <li>Network Topology Canvas Visualiser</li>
+        <li>Performance &amp; Delay Analysis (all 4 components)</li>
+        <li>Algorithm Comparison (Dijkstra vs Bellman-Ford)</li>
+        <li>Step-by-step Dijkstra Trace</li>
+        <li>Interactive CN Quiz</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>CN Concepts Covered</h3>
+      <ul>
+        <li>OSI Layer 3 (Network) — routing decisions</li>
+        <li>OSI Layer 4 (Transport) — delay, BDP, throughput</li>
+        <li>OSPF / Dijkstra link-state routing</li>
+        <li>RIP / Bellman-Ford distance-vector routing</li>
+        <li>End-to-end delay: propagation, transmission, processing, queuing</li>
+        <li>QoS classification (ITU-T G.114)</li>
+        <li>ECMP and load balancing</li>
+        <li>Bandwidth-Delay Product and TCP window sizing</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

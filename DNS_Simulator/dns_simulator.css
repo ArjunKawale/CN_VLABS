@@ -1,0 +1,452 @@
+/* ================= GLOBAL ================= */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f7fb;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* ================= DARK MODE ================= */
+body.dark-mode {
+    background-color: #0d1117;
+    color: #e6edf3;
+}
+
+body.dark-mode .card,
+body.dark-mode .feature-card,
+body.dark-mode .state,
+body.dark-mode .quiz-card,
+body.dark-mode .question,
+body.dark-mode table {
+    background-color: #161b22;
+    color: #e6edf3;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.4);
+}
+
+body.dark-mode th {
+    background-color: #0b3d91;
+}
+
+body.dark-mode td {
+    border-color: #30363d;
+}
+
+body.dark-mode .dns-simulation-area {
+    background-color: #1c2128;
+}
+
+body.dark-mode .dns-node {
+    background-color: #21262d;
+    border-color: #30363d;
+    color: #e6edf3;
+}
+
+body.dark-mode #step-description {
+    color: #8b949e;
+}
+
+body.dark-mode input[type="text"] {
+    background-color: #21262d;
+    color: #e6edf3;
+    border-color: #30363d;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+    background-color: #0b3d91;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav h2 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 8px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+nav ul li a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+nav ul li a.nav-active {
+    background: rgba(255,255,255,0.25);
+    text-decoration: underline;
+}
+
+/* ================= PAGE SECTIONS (SPA) ================= */
+.page-section {
+    display: none;
+}
+
+/* ================= HERO ================= */
+.hero {
+    background: linear-gradient(135deg, #0b3d91, #000428);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    max-width: 700px;
+    margin: auto;
+}
+
+/* ================= CONTENT ================= */
+.content {
+    padding: 30px;
+}
+
+/* ================= CARDS ================= */
+.card {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    width: 90%;
+}
+
+/* Feature Cards (Home Page) */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.feature-card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #1f6feb;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.feature-card a:hover {
+    background: #174ea6;
+}
+
+/* ================= BUTTONS ================= */
+button {
+    background-color: #1f6feb;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #174ea6;
+}
+
+.dark-toggle {
+    background-color: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.dark-toggle:hover {
+    background-color: rgba(255,255,255,0.35);
+}
+
+/* ================= DNS SIMULATION AREA ================= */
+.dns-simulation-area {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    height: 260px;
+    border-radius: 10px;
+    margin: 20px auto;
+    background-color: #fdfdfd;
+    box-shadow: inset 0px 2px 5px rgba(0,0,0,0.1);
+    overflow: visible;
+}
+
+/* SVG connector lines layer */
+.connector-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.connector-line {
+    stroke: #bbb;
+    stroke-width: 2.5;
+    stroke-dasharray: 6 4;
+}
+
+.connector-line.active-line {
+    stroke: #1f6feb;
+    stroke-width: 3;
+    stroke-dasharray: none;
+    animation: dash-flow 0.6s linear infinite;
+}
+
+@keyframes dash-flow {
+    to { stroke-dashoffset: -12; }
+}
+
+/* ================= DNS NODES ================= */
+.dns-node {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    background-color: white;
+    border: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.dns-node .node-icon {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.dns-node .node-label small {
+    font-weight: normal;
+    color: #777;
+}
+
+/* Node positions — 5 nodes spread across simulation area */
+.client-node   { left: 16px;  top: 85px; }
+.resolver-node { left: 200px; top: 85px; }
+.root-node     { left: 390px; top: 20px; }
+.tld-node      { left: 580px; top: 85px; }
+.auth-node     { left: 760px; top: 85px; }
+
+/* Active node highlight */
+.dns-node.node-active {
+    border-color: #1f6feb;
+    background-color: #e8f0fe;
+    box-shadow: 0 0 12px rgba(31,111,235,0.45);
+}
+
+body.dark-mode .dns-node.node-active {
+    background-color: #0d2657;
+    border-color: #4d8efc;
+}
+
+/* ================= DNS PACKET (moving element) ================= */
+.dns-packet {
+    position: absolute;
+    top: 110px;
+    left: 50px;
+    min-width: 60px;
+    height: 30px;
+    background-color: #f39c12;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 6px;
+    display: none;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 0 8px;
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+/* ================= TABLES ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #0b3d91;
+    color: white;
+}
+
+/* ================= STATE MACHINE / FLOW CHART ================= */
+.state-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.state {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: white;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 12px;
+}
+
+.state:hover {
+    background-color: #e8ecf5;
+}
+
+.active-state {
+    background-color: #9b59b6;
+    color: white;
+}
+
+/* ================= QUIZ PAGE ================= */
+.quiz-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quiz-card {
+    width: 60%;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f4f7fb;
+}
+
+.question p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question label {
+    display: block;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.quiz-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 25px;
+    font-size: 16px;
+}
+
+.quiz-result {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* ================= DNS vs HTTP COMPARISON ================= */
+.center-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.protocol-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 90%;
+    margin: auto;
+}
+
+.protocol-card {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.tcp-card {
+    background: linear-gradient(135deg, #1f6feb, #0b3d91);
+}
+
+.udp-card {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.protocol-card h2 {
+    margin-top: 0;
+}
+
+.protocol-card ul {
+    padding-left: 20px;
+}
+
+/* ================= RESOLVED IP CARD ================= */
+#resolvedCard {
+    border-left: 5px solid #2ecc71;
+    background: #f0fff4;
+}
+
+body.dark-mode #resolvedCard {
+    background: #0d2b1a;
+    border-left-color: #2ecc71;
+}
