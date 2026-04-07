@@ -8,12 +8,10 @@
   </head>
 
   <body>
-    <!-- NAVBAR -->
     <nav class="navbar">
       <div class="nav-brand">Virtual Labs</div>
     </nav>
 
-    <!-- HERO -->
     <section class="hero">
       <h1>Virtual Labs - Computer Networking</h1>
       <p>Vidyalankar Institute of Technology</p>
@@ -25,18 +23,25 @@
       </div>
     </section>
 
-    <!-- CONTENT -->
     <div class="content">
       <div class="card">
         <h2>Available Experiments</h2>
 
         <div class="card-container" id="experimentList">
-          <!-- Experiments will be injected here -->
-        </div>
+          </div>
+      </div>
+
+      <div class="card" style="text-align: center; margin-top: 2rem;">
+        <h2>Share Your Feedback</h2>
+        <p>Help us improve the Virtual Lab experience by filling out this quick form.</p>
+        <button 
+          onclick="goTo('https://docs.google.com/forms/d/e/1FAIpQLSdaDg3ws6tEbpha20IrWa9OKE-nTXAAdi2kfX08-W4KUhyVLQ/viewform?usp=dialog')"
+          style="margin-top: 1rem;">
+          Give Feedback
+        </button>
       </div>
     </div>
 
-    <!-- JS -->
     <script>
       const experiments = [
         {
